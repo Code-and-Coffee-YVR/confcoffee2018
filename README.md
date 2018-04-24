@@ -1,2 +1,2 @@
-# confcoffee2018
-Conf &amp; Coffee 2018 Resources
+# Conf & Coffee 2018
+Resources from the conference
