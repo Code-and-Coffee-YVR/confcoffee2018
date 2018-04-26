@@ -1,0 +1,1115 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>JavaScript - The not so weird parts</title>
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+  <link rel="stylesheet" href="theme/font-awesome.css">
+  <style type="text/css">
+    body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #222;
+  font-size: 100%;
+}
+
+.slide {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 0; right: 0;
+  background-color: #f7f7f7;
+}
+
+.slide-content {
+  width: 800px;
+  height: 600px;
+  overflow: hidden;
+  margin: 80px auto 0 auto;
+  padding: 30px;
+
+  font-weight: 200;
+  font-size: 200%;
+  line-height: 1.375;
+}
+
+.controls {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+
+.arrow {
+  width: 0; height: 0;
+  border: 30px solid #333;
+  float: left;
+  margin-right: 30px;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.prev {
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+
+  border-left-width: 0;
+  border-right-width: 50px;
+}
+
+.next {
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-right-color: transparent;
+
+  border-left-width: 50px;
+  border-right-width: 0;
+}
+
+.prev:hover {
+  border-right-color: #888;
+  cursor: pointer;
+}
+
+.next:hover {
+  border-left-color: #888;
+  cursor: pointer;
+}
+
+h1 {
+  font-size: 300%;
+  line-height: 1.2;
+  text-align: center;
+  margin: 170px 0 0;
+}
+
+h2 {
+  font-size: 100%;
+  line-height: 1.2;
+  margin: 5px 0;
+  text-align: center;
+  font-weight: 200;
+}
+
+h3 {
+  font-size: 140%;
+  line-height: 1.2;
+  border-bottom: 1px solid #aaa;
+  margin: 0;
+  padding-bottom: 15px;
+}
+
+ul {
+  padding: 20px 0 0 60px;
+  font-weight: 200;
+  line-height: 1.375;
+}
+
+.author h1 {
+  font-size: 170%;
+  font-weight: 200;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.author h3 {
+  font-weight: 100;
+  text-align: center;
+  font-size: 95%;
+  border: none;
+}
+
+a {
+  text-decoration: none;
+  color: #44a4dd;
+}
+
+a:hover {
+  color: #66b5ff;
+}
+
+pre {
+  font-size: 60%;
+  line-height: 1.3;
+}
+
+.progress {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+
+.progress-bar {
+  width: 0%;
+  height: 3px;
+  background-color: #b4b4b4;
+
+  -webkit-transition: width 0.05s ease-out;
+  -moz-transition: width 0.05s ease-out;
+  -o-transition: width 0.05s ease-out;
+  transition: width 0.05s ease-out;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 850px) {
+
+  body {
+    font-size: 70%;
+  }
+
+  .slide-content {
+    width: auto;
+  }
+
+  img {
+    width: 100%;
+  }
+
+  h1 {
+    margin-top: 120px;
+  }
+
+  .prev, .prev:hover {
+    border-right-color: rgba(135, 135, 135, 0.5);
+  }
+
+  .next, .next:hover {
+    border-left-color: rgba(135, 135, 135, 0.5);
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 50%;
+    overflow: hidden;
+  }
+
+  .slide-content {
+    padding: 10px;
+    margin-top: 10px;
+    height: 340px;
+  }
+
+  h1 {
+    margin-top: 50px;
+  }
+
+  ul {
+    padding-left: 25px;
+  }
+}
+
+@media print {
+  * {
+    -webkit-print-color-adjust: exact;
+  }
+
+  @page {
+    size: letter;
+  }
+
+  .hidden {
+    display: inline;
+  }
+
+  html {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  body {
+    margin: 0 auto !important;
+    border: 0;
+    padding: 0;
+    float: none !important;
+    overflow: visible;
+    background: none !important;
+    font-size: 52%;
+  }
+
+  .progress, .controls {
+    display: none;
+  }
+
+  .slide {
+    position: static;
+  }
+
+  .slide-content {
+    border: 1px solid #222;
+    margin-top: 0;
+    margin-bottom: 40px;
+    height: 3.5in;
+    overflow: visible;
+  }
+
+  .slide:nth-child(even) {
+    /* 2 slides per page */
+    page-break-before: always;
+  }
+}
+
+/*
+
+github.com style (c) Vasily Polovnyov <vast@whiteants.net>
+
+*/
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  color: #333;
+  background: #f8f8f8;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #998;
+  font-style: italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-subst {
+  color: #333;
+  font-weight: bold;
+}
+
+.hljs-number,
+.hljs-literal,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag .hljs-attr {
+  color: #008080;
+}
+
+.hljs-string,
+.hljs-doctag {
+  color: #d14;
+}
+
+.hljs-title,
+.hljs-section,
+.hljs-selector-id {
+  color: #900;
+  font-weight: bold;
+}
+
+.hljs-subst {
+  font-weight: normal;
+}
+
+.hljs-type,
+.hljs-class .hljs-title {
+  color: #458;
+  font-weight: bold;
+}
+
+.hljs-tag,
+.hljs-name,
+.hljs-attribute {
+  color: #000080;
+  font-weight: normal;
+}
+
+.hljs-regexp,
+.hljs-link {
+  color: #009926;
+}
+
+.hljs-symbol,
+.hljs-bullet {
+  color: #990073;
+}
+
+.hljs-built_in,
+.hljs-builtin-name {
+  color: #0086b3;
+}
+
+.hljs-meta {
+  color: #999;
+  font-weight: bold;
+}
+
+.hljs-deletion {
+  background: #fdd;
+}
+
+.hljs-addition {
+  background: #dfd;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+* {
+  -ms-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: sans-serif;
+  font-weight: 100;
+  color: #333333;
+  margin: 0;
+}
+
+a {
+  color: #EF2537;
+}
+
+h1, h2, h3 {
+  font-family: serif;
+}
+
+h1 {
+  font-weight: normal;
+  margin: 20px 0 20px 0;
+  color: #EF2537;
+}
+
+h2 {
+  color: #EF2537;
+  font-weight: normal;
+  font-size: 200%;
+  margin: 20px 0;
+}
+
+h3 {
+  font-weight: normal;
+}
+
+p {
+  font-weight: 100;
+}
+
+h1, h2, h3, h4, h5, p, ul {
+  margin: 10px 0;
+}
+
+ul {
+  padding: 20px 0 20px 60px;
+}
+
+.centered {
+  text-align: center;
+}
+
+.logo {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  height: 140px;
+  width: 140px;
+}
+
+@media (max-width: 979px) {
+  .logo {
+    height: 120px;
+    width: 120px;
+  }
+}
+
+@media (max-width: 768px) {
+  .logo {
+    height: 100px;
+    width: 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    height: 80px;
+    width: 80px;
+  }
+}
+
+.slide {
+  background: url('theme/logo.png') transparent right bottom no-repeat;
+}
+
+.slide-content {
+  width: 100%;
+  height: 100%;
+/*  min-height: 600px;
+  min-width: 800px;
+  max-height: 800px;
+  max-width: 1200px;*/
+  margin: 0 auto;
+  padding: 30px;
+}
+
+.title .slide-content {
+  display: table;
+}
+
+.title h1 {
+  display: table-cell;
+  vertical-align: middle;
+  z-index: 10;
+}
+
+.presenter img {
+  height: 200px;
+  width: 200px;
+  margin: 0 auto;
+  border: 5px solid #AAAAAA;
+  -webkit-border-radius: 100px;
+  -moz-border-radius: 100px;
+  border-radius: 100px;
+  -webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
+}
+
+
+.presenter h2 {
+  color: #333333;
+}
+.presenter p {
+  text-align: center;
+}
+
+.presenter ul {
+  width: 100%;
+  padding: 0;
+  margin: 10px 0;
+  list-style: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.presenter li {
+  display: inline;
+  padding: 0 10px;
+}
+
+.sponsors h1 {
+  margin: 20px 0 40px 0;
+}
+
+.sponsors p {
+  float: left;
+  text-align: center;
+  width: 50%;
+  padding: 0 20px;
+}
+
+.sponsors p > img {
+  width: 100%;
+  max-width: 240px;
+}
+
+.image p > img {
+  max-width: 600px;
+  max-height: 400px;
+  margin: 20px auto;
+  display: table-cell;
+}
+
+pre {
+  font-size: 90%;
+  border: none;
+}
+
+.code-large pre {
+  font-size: 120%;
+  padding-top: 2em;
+}
+
+.questions li {
+  margin: 20px 0;
+}
+
+.progress {
+  top: 100%;
+  margin-top: -10px;
+}
+
+.progress-bar {
+  height: 10px;
+  background-color: #EF2537;
+  background-image: -webkit-linear-gradient(left, #EF2537, #FFFFFF);
+  background-image: -moz-linear-gradient(left, #EF2537, #FFFFFF);
+  background-image: -o-linear-gradient(left, #EF2537, #FFFFFF);
+  background-image: -ms-linear-gradient(left, #EF2537, #FFFFFF);
+  background-image: linear-gradient(left, #EF2537, #FFFFFF);
+  height: 10px;
+}
+
+pre {
+  padding-left: 20px;
+  margin-left: 40px;
+  border-left: 5px solid rgba(41,41,41,.3);
+}
+
+.intro h1 {
+  color: #333333;
+  margin-bottom: 8%;
+}
+
+.intro h2 {
+  font-family: sans-serif;
+  font-size: 150%;
+  color: #333333;
+}
+
+.standardization {
+  background: url('img/standardization.jpg') no-repeat center center fixed;
+  background-size: contain;
+}
+
+.inheritance {
+  background: url('img/proto-class.png') no-repeat center center fixed;
+  background-size: contain;
+}
+  </style>
+</head>
+<body>
+    <div class="progress">
+    <div class="progress-bar"></div>
+  </div>
+
+  <div class="slide  intro" id="slide-1">
+    <section class="slide-content"><h1 id="javascript-the-not-so-weird-anymore-parts">JavaScript - The not so weird (anymore) parts</h1>
+<h2 id="by-daffl-https-twitter-com-daffl-">By <a href="https://twitter.com/daffl">@daffl</a></h2>
+<h2 id="-daffl-github-io-not-so-weird-js-https-daffl-github-io-not-so-weird-js-"><a href="https://daffl.github.io/not-so-weird-js">daffl.github.io/not-so-weird-js</a></h2>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-2">
+    <section class="slide-content"><h2 id="the-weird-and-not-so-weird">The weird and not so weird</h2>
+<ul>
+<li>ECMAScript</li>
+<li>JavaScript tooling</li>
+<li>Truthy and falsyness</li>
+<li>Operators</li>
+<li><code>var</code>, <code>let</code>, <code>const</code>, globals</li>
+<li>Object declarations</li>
+<li>Destructuring</li>
+<li>Functions and <code>this</code></li>
+<li>Inheritance</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-3">
+    <section class="slide-content"><h2 id="ecmascript-es-">ECMAScript (ES)</h2>
+<p>Standard for the JavaScript language</p>
+<ul>
+<li>1995 - JavaScript (Mocha, LiveScript) prototype</li>
+<li>1997 - 1st edition</li>
+<li>1998 - 2nd edition</li>
+<li>1999 - 3rd edition</li>
+<li>2009 - 5th edition (ES5)</li>
+<li>2015 - 6th edition (ES6, ES2015)</li>
+<li>2016 - ES2016</li>
+<li>2017 - ES2017</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden - standardization" id="slide-4">
+    <section class="slide-content"></section>
+  </div>
+  <div class="slide hidden -" id="slide-5">
+    <section class="slide-content"><h2 id="javascript-tooling">JavaScript tooling</h2>
+<ul>
+<li>Code quality tools (<a href="https://eslint.org/">ESLint</a>, <a href="https://github.com/prettier/prettier">prettier</a>)</li>
+<li>Transpilers (<a href="https://babeljs.io/">Babel</a>, <a href="https://github.com/google/traceur-compiler">Traceur</a>, <a href="https://github.com/rollup/rollup">Rollup</a>)<ul>
+<li>Turn not weird JavaScript (ES2015+) into weird (old) JavaScript</li>
+<li>Allow support for non-standard and experimental features</li>
+<li>ES modules (<code>import</code>, <code>export</code>)</li>
+<li>JSX</li>
+</ul>
+</li>
+<li>Compile-to JavaScript languages<ul>
+<li><a href="https://www.typescriptlang.org/">TypeScript</a></li>
+<li><a href="https://github.com/clojure/clojurescript">ClojureScript</a></li>
+</ul>
+</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-6">
+    <section class="slide-content"><h2 id="weird-ish-truthy-and-falsyness">Weird-ish: Truthy- and falsyness</h2>
+<p><strong>Truthyness</strong></p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> person = { name: <span class="hljs-string">'David'</span> }
+
+<span class="hljs-comment">// Do something if property is truthy</span>
+<span class="hljs-keyword">if</span>(person.name) {}
+<span class="hljs-comment">// Do something if property exists at all</span>
+<span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> person.name !== <span class="hljs-string">'undefined'</span>) {}</code></pre>
+<p><strong>Falsy values</strong></p>
+<pre><code class="lang-javascript"><span class="hljs-literal">false</span>
+<span class="hljs-literal">null</span>
+<span class="hljs-literal">undefined</span>
+<span class="hljs-number">0</span>
+<span class="hljs-string">''</span>
+person.undefinedProperty</code></pre>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-7">
+    <section class="slide-content"><h2 id="the-weirdest-">The weirdest: <code>==</code>, <code>!=</code></h2>
+<p><code>==</code> and <code>!=</code> compare the value</p>
+<pre><code class="lang-javascript"><span class="hljs-number">1</span> == <span class="hljs-number">1</span> <span class="hljs-comment">// -&gt; true</span>
+<span class="hljs-number">1</span> == <span class="hljs-string">'1'</span> <span class="hljs-comment">// -&gt; true</span>
+<span class="hljs-number">1</span> == <span class="hljs-number">2</span> <span class="hljs-comment">// -&gt; false</span>
+
+<span class="hljs-comment">// Now things get weird</span>
+<span class="hljs-string">''</span> == <span class="hljs-literal">false</span> <span class="hljs-comment">// -&gt; true</span>
+[] == <span class="hljs-literal">false</span> <span class="hljs-comment">// -&gt; true</span>
+<span class="hljs-literal">null</span> == <span class="hljs-literal">undefined</span> <span class="hljs-comment">// -&gt; true</span></code></pre>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-8">
+    <section class="slide-content"><h2 id="not-weird-">Not weird: <code>===</code>, <code>!==</code></h2>
+<p><code>===</code> and <code>!==</code> compare value <em>and</em> type</p>
+<pre><code class="lang-javascript"><span class="hljs-number">1</span> === <span class="hljs-number">1</span> <span class="hljs-comment">// -&gt; true</span>
+<span class="hljs-number">1</span> === <span class="hljs-string">'1'</span> <span class="hljs-comment">// -&gt; false</span>
+<span class="hljs-number">1</span> === <span class="hljs-built_in">parseInt</span>(<span class="hljs-string">'1'</span>, <span class="hljs-number">10</span>) <span class="hljs-comment">// -&gt; true</span>
+[] === <span class="hljs-literal">false</span> <span class="hljs-comment">// -&gt; false</span>
+<span class="hljs-literal">null</span> === <span class="hljs-literal">undefined</span> <span class="hljs-comment">// -&gt; false</span></code></pre>
+<h4 id="always-use-and-">ALWAYS USE <code>===</code> and <code>!==</code></h4>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-9">
+    <section class="slide-content"><h2 id="weird-var-">Weird: <code>var</code></h2>
+<p><code>var</code> declares a variable that can be reassigned and redeclared and is scoped to the function.</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++) {}
+
+<span class="hljs-built_in">console</span>.log(i); <span class="hljs-comment">// 10</span>
+
+<span class="hljs-keyword">if</span>(<span class="hljs-literal">true</span>) {
+    <span class="hljs-keyword">var</span> i = <span class="hljs-number">20</span>;
+
+    <span class="hljs-keyword">var</span> i = <span class="hljs-number">30</span>;
+}
+
+<span class="hljs-built_in">console</span>.log(i); <span class="hljs-comment">// 30</span></code></pre>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-10">
+    <section class="slide-content"><h2 id="very-weird-globals">Very weird: globals</h2>
+<p>Variables declared without anything <a href="https://github.com/DmitryBaranovskiy/raphael/issues/934">will automatically become global</a></p>
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">test</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">var</span> local = <span class="hljs-number">42</span>;
+    global = <span class="hljs-string">'global'</span>;
+}</code></pre>
+<p>Attach to the global (<code>window</code> in browser) object explicitly:</p>
+<pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">test</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">var</span> local = <span class="hljs-number">42</span>;
+    <span class="hljs-built_in">window</span>.global = <span class="hljs-string">'global'</span>;
+}</code></pre>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-11">
+    <section class="slide-content"><h2 id="not-so-weird-let-">Not so weird: <code>let</code></h2>
+<p><code>let</code> declares a variable that can be reassigned but not redeclared and is scoped to the block.</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++) {}
+
+<span class="hljs-built_in">console</span>.log(i); <span class="hljs-comment">// ReferenceError: i is not defined</span>
+
+<span class="hljs-keyword">if</span>(<span class="hljs-literal">true</span>) {
+    <span class="hljs-keyword">let</span> i = <span class="hljs-number">20</span>;
+    i = <span class="hljs-number">10</span>;
+    <span class="hljs-built_in">console</span>.log(i); <span class="hljs-comment">// 10</span>
+
+    <span class="hljs-keyword">let</span> i = <span class="hljs-number">2</span>; <span class="hljs-comment">// SyntaxError: Identifier 'i' has already been declared</span>
+}</code></pre>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-12">
+    <section class="slide-content"><h2 id="not-so-weird-const-">Not so weird: <code>const</code></h2>
+<p><code>const</code> declares a variable that can be reassigned but not redeclared and is scoped to the block.</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">if</span>(<span class="hljs-literal">true</span>) {
+    <span class="hljs-keyword">const</span> i = <span class="hljs-number">20</span>;
+    i = <span class="hljs-number">10</span>; <span class="hljs-comment">// TypeError: Assignment to constant variable</span>
+
+    <span class="hljs-keyword">const</span> i = <span class="hljs-number">2</span>; <span class="hljs-comment">// SyntaxError: Identifier 'i' has already been declared</span>
+}
+
+<span class="hljs-built_in">console</span>.log(i); <span class="hljs-comment">// ReferenceError: i is not defined</span></code></pre>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-13">
+    <section class="slide-content"><h2 id="a-little-weird-object-declarations">A little weird: Object declarations</h2>
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> key = <span class="hljs-string">'type'</span>;
+<span class="hljs-keyword">var</span> firstName = <span class="hljs-string">'David'</span>;
+
+<span class="hljs-keyword">var</span> user = {
+    firstName: firstName,
+    lastName: <span class="hljs-string">'Luecke'</span>,
+    fullName: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.firstName + <span class="hljs-string">' '</span> + <span class="hljs-keyword">this</span>.lastName;
+    }
+}
+
+user[key] = <span class="hljs-string">'user'</span>;</code></pre>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-14">
+    <section class="slide-content"><h2 id="not-so-weird-object-shorthands">Not so weird: Object shorthands</h2>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> firstName = <span class="hljs-string">'David'</span>;
+<span class="hljs-keyword">const</span> user = {
+    [key]: <span class="hljs-string">'user'</span>,
+    firstName,
+    lastName: <span class="hljs-string">'Luecke'</span>,
+    fullName() {
+        <span class="hljs-keyword">return</span> <span class="hljs-string">`<span class="hljs-subst">${this.firstName}</span> <span class="hljs-subst">${this.lastName}</span>`</span>;
+    }
+}</code></pre>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-15">
+    <section class="slide-content"><h2 id="awesome-destructuring">Awesome: Destructuring</h2>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> user = {
+    name: <span class="hljs-string">'David'</span>,
+    likes: [ <span class="hljs-string">'ice cream'</span>, <span class="hljs-string">'rock climbing'</span> ],
+    address: {
+        city: <span class="hljs-string">'Vancouver'</span>
+    }
+}
+
+<span class="hljs-keyword">const</span> { name } = user; <span class="hljs-comment">// name = 'David'</span>
+<span class="hljs-comment">// Nested</span>
+<span class="hljs-keyword">const</span> { address: { city } } = user; <span class="hljs-comment">// city = 'Vancouver'</span>
+<span class="hljs-comment">// From arrays</span>
+<span class="hljs-keyword">const</span> { likes: [, secondLike ] } = user; <span class="hljs-comment">// secondLike = 'rock climbing'</span>
+<span class="hljs-comment">// Aliased</span>
+<span class="hljs-keyword">const</span> { name: username } = user; <span class="hljs-comment">// username = 'David'</span>
+<span class="hljs-comment">// Defaults</span>
+<span class="hljs-keyword">const</span> { address: { country = <span class="hljs-string">'Canada'</span> } } = user; <span class="hljs-comment">// country = 'Canada'</span></code></pre>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-16">
+    <section class="slide-content"><h2 id="slightly-weird-functions-and-arguments-">Slightly weird: Functions and <code>arguments</code></h2>
+<p>Functions are treated just like any other variable:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> myFunction = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">arg</span>) </span>{}
+<span class="hljs-comment">// the same as</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">myFunction</span>(<span class="hljs-params">arg</span>) </span>{}
+
+<span class="hljs-keyword">const</span> person = {}
+
+person.sayHi = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{}
+
+<span class="hljs-comment">// Magic arguments</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sum</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">var</span> result = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-built_in">arguments</span>.length; i++) {
+        result += <span class="hljs-built_in">arguments</span>[i];
+    }
+    <span class="hljs-keyword">return</span> result;
+}</code></pre>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-17">
+    <section class="slide-content"><h2 id="not-weird-fancy-function-arguments">Not weird: Fancy function arguments</h2>
+<pre><code class="lang-js"><span class="hljs-comment">// Default arguments</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">add</span>(<span class="hljs-params">a = 1, b = 2</span>) </span>{}
+
+<span class="hljs-comment">// Destructuring arguments</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">parseAddress</span>(<span class="hljs-params">{ address: { city, country = 'Canada' } }</span>) </span>{}
+
+<span class="hljs-comment">// Spread operator (varargs)</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sum</span>(<span class="hljs-params">...numbers</span>) </span>{
+    <span class="hljs-keyword">let</span> result = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> number <span class="hljs-keyword">of</span> numbers) {
+        result += number;
+    }
+    <span class="hljs-keyword">return</span> result;
+}</code></pre>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-18">
+    <section class="slide-content"><h2 id="weird-the-trinity-of-this-">Weird: The trinity of <code>this</code></h2>
+<p><code>this</code> refers to the <em>owner</em> of the function you are calling.</p>
+<p>1) <strong>The object</strong>, when the function is called on an object</p>
+<pre><code class="lang-js">person.sayHi()</code></pre>
+<p>2) A new object if the function is called with the <code>new</code> operator</p>
+<pre><code class="lang-js"><span class="hljs-keyword">new</span> Dog(<span class="hljs-string">'Goofy'</span>);</code></pre>
+<p>3) The owner has been changed with <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call">call</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply">apply</a> or <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind">bind</a>.</p>
+<pre><code class="lang-js">sayHi.call(owner, arg1, arg2);
+sayHi.apply(owner, argsArray);
+
+<span class="hljs-keyword">var</span> boundSayHi = sayHi.bind(owner);</code></pre>
+<p>Otherwise <code>this</code> will be the global (<code>window</code>) object (or <code>undefined</code> in strict mode).</p>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-19">
+    <section class="slide-content"><h2 id="less-weird-arrow-functions">Less weird: Arrow functions</h2>
+<p>Arrow functions <code>this</code> is always the same as the <code>this</code> of its surrounding context. It can <strong>not</strong> be changed. Arrow functions do not have magic <code>arguments</code>.</p>
+<pre><code class="lang-javascript"><span class="hljs-comment">// Single argument, single line</span>
+<span class="hljs-keyword">const</span> square = x =&gt; x * x;
+
+<span class="hljs-comment">// Multiple arguments, single line</span>
+<span class="hljs-keyword">const</span> sum = (a, b) =&gt; a + b;
+
+<span class="hljs-comment">// Multi line</span>
+<span class="hljs-keyword">const</span> sum = (...numbers) =&gt; {
+    <span class="hljs-keyword">let</span> result = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> number <span class="hljs-keyword">of</span> numbers) {
+        result += number;
+    }
+    <span class="hljs-keyword">return</span> result;
+}</code></pre>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-20">
+    <section class="slide-content"><h2 id="kind-of-weird-javascript-inheritance">Kind of weird: JavaScript inheritance</h2>
+<p>JavaScript only knows objects. Inheritance is done by pointing an objects prototype to another object.</p>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> Elephant = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">this</span>.legs = <span class="hljs-number">4</span>;
+    <span class="hljs-keyword">this</span>.hasTrunk = <span class="hljs-literal">true</span>;
+}
+
+Elephant.prototype.getType = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-string">'Mammal'</span>;
+}
+
+<span class="hljs-keyword">const</span> dumbo = <span class="hljs-keyword">new</span> Elephant();
+dumbo.legs <span class="hljs-comment">// 4</span>
+dumbo.getType(); <span class="hljs-comment">// Mammal</span></code></pre>
+</section>
+  </div>
+  <div class="slide hidden - inheritance" id="slide-21">
+    <section class="slide-content"></section>
+  </div>
+  <div class="slide hidden -" id="slide-22">
+    <section class="slide-content"><h2 id="kind-of-weird-javascript-inheritance">Kind of weird: JavaScript inheritance</h2>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> Dogephant = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">this</span>.hasFur = <span class="hljs-literal">true</span>;
+}
+
+Dogephant.prototype = <span class="hljs-keyword">new</span> Elephant();
+
+<span class="hljs-keyword">const</span> Wienephant = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">this</span>.isTiny = <span class="hljs-literal">true</span>;
+}
+
+Wienephant.prototype = <span class="hljs-keyword">new</span> Dogephant();</code></pre>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-23">
+    <section class="slide-content"><h2 id="less-weird-ecmascript-5-inheritance">Less weird: ECMAScript 5 inheritance</h2>
+<p>Uses only objects and inherits with <code>Object.create(prototypeObject)</code></p>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> Elephant = {
+    legs: <span class="hljs-number">4</span>,
+    hasTrunk: <span class="hljs-literal">true</span>,
+    getType() {
+        <span class="hljs-keyword">return</span> <span class="hljs-string">'Mammal'</span>;
+    }
+}
+
+<span class="hljs-keyword">const</span> Dogephant = <span class="hljs-built_in">Object</span>.create(Elephant);
+
+Dogephant.hasFur = <span class="hljs-literal">true</span>;
+
+<span class="hljs-keyword">const</span> Wienephant = <span class="hljs-built_in">Object</span>.create(Dogephant);
+
+Wienephant.isTiny = <span class="hljs-literal">true</span>;</code></pre>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-24">
+    <section class="slide-content"><h2 id="maybe-not-weird-es2015-es6-classes">Maybe not weird: ES2015 (ES6) classes</h2>
+<p>Uses <code>class</code>, <code>extends</code> and <code>constructor</code></p>
+<pre><code class="lang-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Elephant</span> </span>{
+    <span class="hljs-keyword">constructor</span>() {
+        <span class="hljs-keyword">this</span>.legs = <span class="hljs-number">4</span>;
+        <span class="hljs-keyword">this</span>.hasTrunk = <span class="hljs-literal">true</span>;
+    }
+
+    getType() {
+        <span class="hljs-keyword">return</span> <span class="hljs-string">'Mammal'</span>;
+    }
+}</code></pre>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-25">
+    <section class="slide-content"><h2 id="maybe-not-weird-es2015-es6-classes">Maybe not weird: ES2015 (ES6) classes</h2>
+<pre><code class="lang-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Dogephant</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Elephant</span> </span>{
+    <span class="hljs-keyword">constructor</span>() {
+        <span class="hljs-keyword">super</span>();
+        <span class="hljs-keyword">this</span>.hasFur = <span class="hljs-literal">true</span>;
+    }
+}
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Wienephant</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Dogephant</span> </span>{
+    <span class="hljs-keyword">constructor</span>() {
+        <span class="hljs-keyword">super</span>();
+        <span class="hljs-keyword">this</span>.isTiny = <span class="hljs-literal">true</span>;
+    }
+}</code></pre>
+</section>
+  </div>
+
+
+  <script type="text/javascript">
+    /**
+ * Returns the current page number of the presentation.
+ */
+function currentPosition() {
+  return parseInt(document.querySelector('.slide:not(.hidden)').id.slice(6));
+}
+
+
+/**
+ * Navigates forward n pages
+ * If n is negative, we will navigate in reverse
+ */
+function navigate(n) {
+  var position = currentPosition();
+  var numSlides = document.getElementsByClassName('slide').length;
+
+  /* Positions are 1-indexed, so we need to add and subtract 1 */
+  var nextPosition = (position - 1 + n) % numSlides + 1;
+
+  /* Normalize nextPosition in-case of a negative modulo result */
+  nextPosition = (nextPosition - 1 + numSlides) % numSlides + 1;
+
+  document.getElementById('slide-' + position).classList.add('hidden');
+  document.getElementById('slide-' + nextPosition).classList.remove('hidden');
+
+  updateProgress();
+  updateURL();
+  updateTabIndex();
+}
+
+
+/**
+ * Updates the current URL to include a hashtag of the current page number.
+ */
+function updateURL() {
+  window.history.replaceState({} , null, '#' + currentPosition());
+}
+
+
+/**
+ * Sets the progress indicator.
+ */
+function updateProgress() {
+  var progressBar = document.querySelector('.progress-bar');
+
+  if (progressBar !== null) {
+    var numSlides = document.getElementsByClassName('slide').length;
+    var position = currentPosition() - 1;
+    var percent = (numSlides === 1) ? 100 : 100 * position / (numSlides - 1);
+    progressBar.style.width = percent.toString() + '%';
+  }
+}
+
+
+/**
+ * Removes tabindex property from all links on the current slide, sets
+ * tabindex = -1 for all links on other slides. Prevents slides from appearing
+ * out of control.
+ */
+function updateTabIndex() {
+  var allLinks = document.querySelectorAll('.slide a');
+  var position = currentPosition();
+  var currentPageLinks = document.getElementById('slide-' + position).querySelectorAll('a');
+  var i;
+
+  for (i = 0; i < allLinks.length; i++) {
+    allLinks[i].setAttribute('tabindex', -1);
+  }
+
+  for (i = 0; i < currentPageLinks.length; i++) {
+    currentPageLinks[i].removeAttribute('tabindex');
+  }
+}
+
+/**
+ * Determines whether or not we are currently in full screen mode
+ */
+function isFullScreen() {
+  return document.fullscreenElement ||
+         document.mozFullScreenElement ||
+         document.webkitFullscreenElement ||
+         document.msFullscreenElement;
+}
+
+/**
+ * Toggle fullScreen mode on document element.
+ * Works on chrome (>= 15), firefox (>= 9), ie (>= 11), opera(>= 12.1), safari (>= 5).
+ */
+function toggleFullScreen() {
+  /* Convenient renames */
+  var docElem = document.documentElement;
+  var doc = document;
+
+  docElem.requestFullscreen =
+      docElem.requestFullscreen ||
+      docElem.msRequestFullscreen ||
+      docElem.mozRequestFullScreen ||
+      docElem.webkitRequestFullscreen.bind(docElem, Element.ALLOW_KEYBOARD_INPUT);
+
+  doc.exitFullscreen =
+      doc.exitFullscreen ||
+      doc.msExitFullscreen ||
+      doc.mozCancelFullScreen ||
+      doc.webkitExitFullscreen;
+
+  isFullScreen() ? doc.exitFullscreen() : docElem.requestFullscreen();
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Update the tabindex to prevent weird slide transitioning
+  updateTabIndex();
+
+  // If the location hash specifies a page number, go to it.
+  var page = window.location.hash.slice(1);
+  if (page) {
+    navigate(parseInt(page) - 1);
+  }
+
+  document.onkeydown = function (e) {
+    var kc = e.keyCode;
+
+    // left, down, H, J, backspace, PgUp - BACK
+    // up, right, K, L, space, PgDn - FORWARD
+    // enter - FULLSCREEN
+    if (kc === 37 || kc === 40 || kc === 8 || kc === 72 || kc === 74 || kc === 33) {
+      navigate(-1);
+    } else if (kc === 38 || kc === 39 || kc === 32 || kc === 75 || kc === 76 || kc === 34) {
+      navigate(1);
+    } else if (kc === 13) {
+      toggleFullScreen();
+    }
+  };
+
+  if (document.querySelector('.next') && document.querySelector('.prev')) {
+    document.querySelector('.next').onclick = function (e) {
+      e.preventDefault();
+      navigate(1);
+    };
+
+    document.querySelector('.prev').onclick = function (e) {
+      e.preventDefault();
+      navigate(-1);
+    };
+  }
+});
+
+
+  </script>
+</body>
+</html>
